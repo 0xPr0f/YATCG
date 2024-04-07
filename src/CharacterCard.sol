@@ -1,6 +1,13 @@
-pragma solidity ^0.8.13;
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
-contract CharacterCard {
+import {ERC721} from "solady/tokens/ERC721.sol";
+
+contract CharacterCard is ERC721 {
+    string public _name;
+    string public _symbol;
+    mapping(uint => string) _tokenURI;
+    constructor() {}
     enum Class {
         mage,
         swordsman,
@@ -31,4 +38,19 @@ contract CharacterCard {
 
     mapping(uint256 => Stats) public stats;
     mapping(uint256 => Lore) public lore;
+
+    /// @dev Returns the token collection name.
+    function name() public view override returns (string memory) {
+        return _name;
+    }
+
+    /// @dev Returns the token collection symbol.
+    function symbol() public view override returns (string memory) {
+        return _symbol;
+    }
+
+    /// @dev Returns the Uniform Resource Identifier (URI) for token `id`.
+    function tokenURI(uint256 id) public view override returns (string memory) {
+        return _tokenURI[id];
+    }
 }
