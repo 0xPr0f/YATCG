@@ -31,6 +31,10 @@ contract CharacterCard is ERC721, ERC721Enumerable, ERC721URIStorage {
         // certain characters are minted with 1 - 10level and cap out at 100 (* 10 ** 5)
         uint8 level;
     }
+    struct Equipments {
+        uint256 WeaponId;
+        uint256 ArmorId;
+    }
     struct Stats {
         Lore lore;
         Class class;
@@ -39,6 +43,7 @@ contract CharacterCard is ERC721, ERC721Enumerable, ERC721URIStorage {
 
     mapping(uint256 => Stats) public stats;
     mapping(uint256 => Lore) public lore;
+    mapping(uint256 => Equipments) public equipments;
 
     function mint(address to, string memory uri) public returns (uint256) {
         _tokenIdCounter++;
@@ -59,6 +64,38 @@ contract CharacterCard is ERC721, ERC721Enumerable, ERC721URIStorage {
         _burn(_tokenId);
         return _tokenId;
     }
+    function attachWeapon(uint256 weapon_tokenID) external returns (bool) {
+        // check if the user is card owner and weapon owner
+    }
+    function detachWeapon() external returns (bool) {
+        // check if the user is the card owner but not the weapon owner
+    }
+
+    function attachArmor(uint256 armor_tokenID) external returns (bool) {
+        // check if the user is card owner and weapon owner
+    }
+    function detachArmor() external returns (bool) {
+        // check if the user is the card owner but not the weapon owner
+    }
+
+    function damage() public view returns (uint256) {
+        //  return
+    }
+
+    function attachedArmorID(uint256 tokenId) public view returns (uint256) {
+        return equipments[tokenId].ArmorId;
+    }
+    function attachedWeaponID(uint256 tokenId) public view returns (uint256) {
+        return equipments[tokenId].WeaponId;
+    }
+    // No armor or card can be the 0 id, but when an armor or card is reset, it id given 0
+    function isAttachedArmor(uint256 tokenId) external view returns (bool) {
+        return attachedArmorID(tokenId) != 0 ? true : false;
+    }
+    function isAttachedWeapon(uint256 tokenId) external view returns (bool) {
+        return attachedWeaponID(tokenId) != 0 ? true : false;
+    }
+
     /**
      * @dev Function to set the token URI.
      * @param _tokenId ID of the token.
